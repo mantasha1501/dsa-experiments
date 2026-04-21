@@ -1,0 +1,90 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define SIZE 10
+
+int stack[SIZE];
+int top = -1;
+
+// Function declarations
+void push(int element);
+void pop();
+void display();
+
+int main()
+{
+    int choice, element;
+
+    while(1)
+    {
+        printf("\nMenu:\n");
+        printf("1. Push\n");
+        printf("2. Pop\n");
+        printf("3. Display\n");
+        printf("4. Exit\n");
+
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch(choice)
+        {
+            case 1:
+                if(top == SIZE - 1){
+                    printf("Stack Overflow!\n");
+                    break;
+                }
+
+                printf("Enter element to push: ");
+                scanf("%d", &element);
+
+                push(element);
+                break;
+
+            case 2:
+                pop();
+                break;
+
+            case 3:
+                display();
+                break;
+
+            case 4:
+                printf("Exiting the program...\n");
+                exit(0);
+
+            default:
+                printf("Invalid choice!\n");
+        }
+    }
+}
+
+// Push Function
+void push(int element)
+{
+    stack[++top] = element;
+    printf("Element pushed successfully!\n");
+}
+
+// Pop Function
+void pop()
+{
+    if(top == -1){
+        printf("Stack Underflow!\n");
+        return;
+    }
+
+    printf("Popped element: %d\n", stack[top--]);
+}
+
+// Display Function
+void display()
+{
+    if(top == -1){
+        printf("Stack is Empty!\n");
+        return;
+    }
+
+    printf("Stack elements:\n");
+    for(int i = top; i >= 0; i--)
+        printf("%d\n", stack[i]);
+}
