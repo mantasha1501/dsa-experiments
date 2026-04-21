@@ -1,0 +1,83 @@
+#include <stdio.h>
+#include <ctype.h>
+
+#define SIZE 100
+
+char stack[SIZE];
+int top = -1;
+
+// Push function
+void push(char x)
+{
+    stack[++top] = x;
+}
+
+// Pop function
+char pop()
+{
+    if(top == -1)
+        return '\0';
+    else
+        return stack[top--];
+}
+
+// Priority function
+int priority(char x)
+{
+    if(x == '(') return 0;
+    if(x == '+' || x == '-') return 1;
+    if(x == '*' || x == '/') return 2;
+    if(x == '^') return 3;
+    return 0;
+}
+
+int main()
+{
+    char exp[100];
+    char *e, x;
+
+    printf("Enter the infix expression: ");
+    scanf("%s", exp);
+
+    e = exp;
+
+    printf("Postfix expression: ");
+
+    while(*e != '\0')
+    {
+        // If operand → print directly
+        if(isalnum(*e))
+        {
+            printf("%c", *e);
+        }
+        // If opening bracket
+        else if(*e == '(')
+        {
+            push(*e);
+        }
+        // If closing bracket
+        else if(*e == ')')
+        {
+            while((x = pop()) != '(')
+                printf("%c", x);
+        }
+        // If operator
+        else
+        {
+            while(top != -1 && priority(stack[top]) >= priority(*e))
+                printf("%c", pop());
+
+            push(*e);
+        }
+
+        e++;
+    }
+
+    // Pop remaining operators
+    while(top != -1)
+        printf("%c", pop());
+
+    printf("\n");
+
+    return 0;
+}
