@@ -1,0 +1,118 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define SIZE 10
+
+int arr[SIZE] = {0};
+int n = 0;
+
+// Function declarations
+void insertElement(int index, int element);
+void deleteElement(int index);
+void displayArray();
+
+int main()
+{
+    int choice, element, index;
+
+    while(1)
+    {
+        printf("\nMenu:\n");
+        printf("1. Insert Element\n");
+        printf("2. Delete Element\n");
+        printf("3. Display Elements\n");
+        printf("4. Exit\n");
+
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch(choice)
+        {
+            case 1:
+                if(n == SIZE){
+                    printf("Array is Full!\n");
+                    break;
+                }
+
+                printf("Enter index position: ");
+                scanf("%d", &index);
+
+                printf("Enter element to insert: ");
+                scanf("%d", &element);
+
+                insertElement(index, element);
+                break;
+
+            case 2:
+                if(n == 0){
+                    printf("Array is Empty!\n");
+                    break;
+                }
+
+                printf("Enter index position to delete: ");
+                scanf("%d", &index);
+
+                deleteElement(index);
+                break;
+
+            case 3:
+                displayArray();
+                break;
+
+            case 4:
+                printf("Exiting the program...\n");
+                exit(0);
+
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+}
+
+// Insert Function
+void insertElement(int index, int element)
+{
+    if(index < 0 || index > n){
+        printf("Invalid index!\n");
+        return;
+    }
+
+    for(int i = n; i > index; i--)
+        arr[i] = arr[i-1];
+
+    arr[index] = element;
+    n++;
+
+    printf("Element inserted successfully!\n");
+}
+
+// Delete Function
+void deleteElement(int index)
+{
+    if(index < 0 || index >= n){
+        printf("Invalid index!\n");
+        return;
+    }
+
+    printf("Deleted element: %d\n", arr[index]);
+
+    for(int i = index; i < n-1; i++)
+        arr[i] = arr[i+1];
+
+    n--;
+}
+
+// Display Function
+void displayArray()
+{
+    if(n == 0){
+        printf("Array is Empty!\n");
+        return;
+    }
+
+    printf("Array elements: ");
+    for(int i = 0; i < n; i++)
+        printf("%d ", arr[i]);
+
+    printf("\n");
+}
