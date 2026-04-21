@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <ctype.h>
+
+#define SIZE 100
+
+int stack[SIZE];
+int top = -1;
+
+// Push function
+void push(int x)
+{
+    stack[++top] = x;
+}
+
+// Pop function
+int pop()
+{
+    return stack[top--];
+}
+
+int main()
+{
+    char exp[100];
+    char *e;
+    int n1, n2, result;
+
+    printf("Enter the postfix expression: ");
+    scanf("%s", exp);
+
+    e = exp;
+
+    while(*e != '\0')
+    {
+        // If operand → push to stack
+        if(isdigit(*e))
+        {
+            push(*e - '0');  // convert char to int
+        }
+        // If operator
+        else
+        {
+            n1 = pop();
+            n2 = pop();
+
+            switch(*e)
+            {
+                case '+': result = n2 + n1; break;
+                case '-': result = n2 - n1; break;
+                case '*': result = n2 * n1; break;
+                case '/': result = n2 / n1; break;
+            }
+
+            push(result);
+        }
+
+        e++;
+    }
+
+    printf("Result of postfix expression: %d\n", pop());
+
+    return 0;
+}
